@@ -20,5 +20,10 @@ namespace ClockIn_ClockOut.Models
         /// </summary>
         [DataType(DataType.DateTime)]
         public DateTime EventDateTime { get; set; }
+
+        /// <summary>
+        /// Used to show success messages.
+        /// </summary>
+        public string SuccessMessage { get; set; }
     }
 }

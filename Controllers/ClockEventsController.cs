@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using ClockIn_ClockOut.Data;
 using ClockIn_ClockOut.Data.Entities;
 using ClockIn_ClockOut.Models;
@@ -25,7 +26,30 @@ namespace ClockIn_ClockOut.Controllers
 
             return View(new ClockEventModel
             {
-                TeacherName = teacherName
+                TeacherName = LoggedInTeacher.UserName
+            });
+        }
+
+        [HttpGet(UriTemplates.ClockEvents_Create)]
+        public async Task<IActionResult> Create(string teacherName)
+        {
+            RecoverLoggedInTeacher(teacherName);
+
+            var now = DateTime.UtcNow;
+            var lastClockEvent = _context.ClockEvents.Where(c => c.Teacher.UserName.Equals(LoggedInTeacher.UserName)).LastOrDefault();
+
+            await _context.ClockEvents.AddAsync(new ClockEvent
+            {
+                ClockIn = !lastClockEvent?.ClockIn ?? true, // the next clock event is always the opposite of the last saved one OR it is the first clock in
+                EventDateTime = now,
+                Teacher = LoggedInTeacher,
+            });
+            await _context.SaveChangesAsync();
+
+            return View("Index", new ClockEventModel
+            {
+                TeacherName = LoggedInTeacher.UserName,
+                SuccessMessage = "Clock event registered!"
             });
         }
 
@@ -35,10 +59,16 @@ namespace ClockIn_ClockOut.Controllers
 
             if (LoggedInTeacher == null)
             {
-                LoggedInTeacher = new Teacher
+                var userName = teacherName.Replace(" ", "");
+
+                _context.Teachers.AddAsync(new Teacher
                 {
+                    UserName = userName,
                     FullName = teacherName
-                };
+                });
+                _context.SaveChanges();
+
+                LoggedInTeacher = _context.Teachers.FirstOrDefault(t => t.UserName.Equals(userName));
             }
         }
     }

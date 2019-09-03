@@ -7,10 +7,14 @@
 <div class="text-center">
     <h1 class="display-4">@ViewData["Title"]</h1>
 
-    <button class="btn btn-primary">Clock in</button>
-    <button class="btn btn-primary">Clock out</button>
+    @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+    {
+        <p>@Model.SuccessMessage</p>
+    }
+
+    <a class="btn btn-primary" asp-controller="ClockEvents" asp-action="Create" asp-route-teacherName="@Model.TeacherName">Register clock event</a>
 
     <br /><br />
 
-    <button class="btn btn-primary">See all clock events</button>
+    <a class="btn btn-primary">See all clock events</a>
 </div>
