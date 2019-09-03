@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Views\Teachers\" />
     <Folder Include="Views\ClockEvents\" />
     <Folder Include="Data\Entities\" />
   </ItemGroup>

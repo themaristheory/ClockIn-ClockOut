@@ -3,14 +3,16 @@ using System;
 using ClockIn_ClockOut.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClockIn_ClockOut.Migrations
 {
     [DbContext(typeof(ClockSystemContext))]
-    partial class ClockSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20190903192519_AddBoolClockIn")]
+    partial class AddBoolClockIn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

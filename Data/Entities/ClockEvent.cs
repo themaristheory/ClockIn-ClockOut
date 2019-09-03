@@ -9,5 +9,7 @@ namespace ClockIn_ClockOut.Data.Entities
         public Teacher Teacher { get; set; }
 
         public DateTime EventDateTime { get; set; }
+
+        public bool ClockIn { get; set; }
     }
 }

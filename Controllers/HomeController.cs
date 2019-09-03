@@ -19,7 +19,8 @@ namespace ClockIn_ClockOut.Controllers
         [HttpPost]
         public IActionResult Index(TeacherModel teacher)
         {
-            return View();
+            // pretend the teacher logged in and redirect to the view with the logic for clock in and clock out
+            return LocalRedirect(Url.Action(nameof(ClockEventsController.Index), "ClockEvents", new { teacherName = teacher.FullName }));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
