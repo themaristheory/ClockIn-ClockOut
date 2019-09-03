@@ -10,12 +10,14 @@ namespace ClockIn_ClockOut.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(TeacherModel teacher)
         {
             return View();
         }
