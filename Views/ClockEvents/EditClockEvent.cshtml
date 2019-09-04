@@ -4,14 +4,14 @@
     ViewData["Title"] = "Edit clock event";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
+<div>
+    <h1 class="display-4 text-center">@ViewData["Title"]</h1>
 
     <br />
     <br />
 
     <div class="row">
-        <div class="col-md-4">
+        <div>
             <form asp-action="Edit">
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="ClockIn" />
@@ -33,7 +33,9 @@
         <p>@Model.Message</p>
     }
 
+    <hr />
+
     <div class="row">
-        <a class="btn btn-default" asp-controller="ClockEvents" asp-action="Index" asp-route-teacherName="@Model.Teacher.UserName">Go back</a>
+        <a class="btn btn-primary" asp-controller="ClockEvents" asp-action="Index" asp-route-teacherName="@Model.Teacher.UserName">Go back</a>
     </div>
 </div>

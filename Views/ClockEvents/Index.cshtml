@@ -1,13 +1,15 @@
 ﻿@model ClockIn_ClockOut.Models.ClockEventPageViewModel
 
 @{
-    ViewData["Title"] = "Clock in/Clock out";
+    ViewData["Title"] = "Clock System";
 }
 
 <div class="text-center">
     <h1 class="display-4">@ViewData["Title"]</h1>
 
+    <br />
     <p>Hello @Model.TeacherName!</p>
+    <br />
 
     <a class="btn btn-primary" asp-controller="ClockEvents" asp-action="Create" asp-route-teacherName="@Model.TeacherName">Register clock event</a>
 

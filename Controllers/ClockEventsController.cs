@@ -95,43 +95,35 @@ namespace ClockIn_ClockOut.Controllers
                 return NotFound();
             }
 
+            clockEvent.Teacher = _context.Teachers.FirstOrDefault(t => t.UserName.Equals(clockEvent.Teacher.UserName));
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    clockEvent.Teacher = _context.Teachers.FirstOrDefault(t => t.UserName.Equals(clockEvent.Teacher.UserName));
                     _context.ClockEvents.Update(clockEvent);
                     await _context.SaveChangesAsync();
 
-                    return View("EditClockEvent", new ClockEventViewModel
-                    {
-                        Id = clockEvent.Id,
-                        Teacher = clockEvent.Teacher,
-                        EventDateTime = clockEvent.EventDateTime,
-                        ClockIn = clockEvent.ClockIn,
-                        Message = "Event updated successfully!",
-                    });
+                    return BuildEditClockView(clockEvent, "Event updated successfully!");
                 }
                 catch (Exception)
                 {
-                    return View("EditClockEvent", new ClockEventViewModel
-                    {
-                        Id = clockEvent.Id,
-                        Teacher = clockEvent.Teacher,
-                        EventDateTime = clockEvent.EventDateTime,
-                        ClockIn = clockEvent.ClockIn,
-                        Message = "There was a problem!",
-                    });
+                    return BuildEditClockView(clockEvent, "There was a problem!");
                 }
             }
 
+            return BuildEditClockView(clockEvent, "There was a problem!");
+        }
+
+        private ViewResult BuildEditClockView(ClockEvent clockEvent, string message)
+        {
             return View("EditClockEvent", new ClockEventViewModel
             {
                 Id = clockEvent.Id,
                 Teacher = clockEvent.Teacher,
                 EventDateTime = clockEvent.EventDateTime,
                 ClockIn = clockEvent.ClockIn,
-                Message = "There was a problem!",
+                Message = message
             });
         }
 
