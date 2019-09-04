@@ -23,6 +23,8 @@
     <Folder Include="Data\" />
     <Folder Include="Views\ClockEvents\" />
     <Folder Include="Data\Entities\" />
+    <Folder Include="Data\Repositories\" />
+    <Folder Include="Data\Repositories\Implementations\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".circleci\config.yml" />
