@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <RootNamespace>ClockIn_ClockOut</RootNamespace>
+    <DockerComposeProjectPath>docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>51f248bb-d902-4153-90c3-a863af2920a1</UserSecretsId>
   </PropertyGroup>
 
 
@@ -21,5 +23,9 @@
     <Folder Include="Data\" />
     <Folder Include="Views\ClockEvents\" />
     <Folder Include="Data\Entities\" />
+    <Folder Include=".circleci\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".circleci\config.yml" />
   </ItemGroup>
 </Project>
