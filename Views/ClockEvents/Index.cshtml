@@ -1,4 +1,4 @@
-﻿@model ClockIn_ClockOut.Models.ClockEventModel
+﻿@model ClockIn_ClockOut.Models.ClockEventPageViewModel
 
 @{
     ViewData["Title"] = "Clock in/Clock out";
@@ -7,14 +7,39 @@
 <div class="text-center">
     <h1 class="display-4">@ViewData["Title"]</h1>
 
-    @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
-    {
-        <p>@Model.SuccessMessage</p>
-    }
+    <p>Hello @Model.TeacherName!</p>
 
     <a class="btn btn-primary" asp-controller="ClockEvents" asp-action="Create" asp-route-teacherName="@Model.TeacherName">Register clock event</a>
 
-    <br /><br />
+    @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+    {
+        <br />
+        <p>@Model.SuccessMessage</p>
+    }
+    else 
+    {
+        <br />
+    }
 
-    <a class="btn btn-primary">See all clock events</a>
+    <hr />
+
+    <a class="btn btn-primary" asp-controller="ClockEvents" asp-action="List" asp-route-teacherName="@Model.TeacherName">See all clock events</a>
+
+    @if (Model.ClockEvents != null && Model.ClockEvents.Count > 0)
+    {
+        <br />
+        <br />
+
+        <ul style="list-style: none;">
+        @{
+            foreach(var clockEvent in Model.ClockEvents)
+            {
+                var clockin = clockEvent.ClockIn ? "Clock In" : "Clock Out";
+                var datetime = clockEvent.EventDateTime.ToString("dd MMM yyy HH':'mm");
+
+                <li>@datetime - @clockin</li>
+            }
+        }
+        </ul>
+    }
 </div>

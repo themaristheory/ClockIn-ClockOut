@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using ClockIn_ClockOut.Data.Entities;
 
 namespace ClockIn_ClockOut.Models
 {
-    public class ClockEventModel
+    public class ClockEventPageViewModel
     {
         /// <summary>
         /// Teacher associated with this event
@@ -11,15 +11,9 @@ namespace ClockIn_ClockOut.Models
         public string TeacherName { get; set; }
 
         /// <summary>
-        /// Whether this event is a clock-in (true) or out (false)
+        /// List of clock events
         /// </summary>
-        public bool ClockIn { get; set; }
-
-        /// <summary>
-        /// Date and time of this event
-        /// </summary>
-        [DataType(DataType.DateTime)]
-        public DateTime EventDateTime { get; set; }
+        public List<ClockEvent> ClockEvents { get; set; }
 
         /// <summary>
         /// Used to show success messages.

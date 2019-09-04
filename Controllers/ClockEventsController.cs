@@ -24,9 +24,23 @@ namespace ClockIn_ClockOut.Controllers
         {
             RecoverLoggedInTeacher(teacherName);
 
-            return View(new ClockEventModel
+            return View(new ClockEventPageViewModel
             {
                 TeacherName = LoggedInTeacher.UserName
+            });
+        }
+
+        [HttpGet(UriTemplates.ClockEvents_List)]
+        public IActionResult List(string teacherName)
+        {
+            RecoverLoggedInTeacher(teacherName);
+
+            var clockEvents = _context.ClockEvents.Where(c => c.Teacher.UserName.Equals(LoggedInTeacher.UserName)).ToList();
+
+            return View("Index", new ClockEventPageViewModel
+            {
+                TeacherName = LoggedInTeacher.UserName,
+                ClockEvents = clockEvents,
             });
         }
 
@@ -35,7 +49,7 @@ namespace ClockIn_ClockOut.Controllers
         {
             RecoverLoggedInTeacher(teacherName);
 
-            var now = DateTime.UtcNow;
+            var now = DateTime.Now;
             var lastClockEvent = _context.ClockEvents.Where(c => c.Teacher.UserName.Equals(LoggedInTeacher.UserName)).LastOrDefault();
 
             await _context.ClockEvents.AddAsync(new ClockEvent
@@ -46,7 +60,7 @@ namespace ClockIn_ClockOut.Controllers
             });
             await _context.SaveChangesAsync();
 
-            return View("Index", new ClockEventModel
+            return View("Index", new ClockEventPageViewModel
             {
                 TeacherName = LoggedInTeacher.UserName,
                 SuccessMessage = "Clock event registered!"
