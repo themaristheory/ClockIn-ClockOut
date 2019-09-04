@@ -44,7 +44,8 @@ namespace ClockIn_ClockOut.Controllers
             {
                 TeacherName = LoggedInTeacher.UserName,
                 ClockEvents = clockEvents,
-            });
+				Message = clockEvents.Count > 0 ? null : "No clock events yet!"
+			});
         }
 
         [HttpGet(UriTemplates.ClockEvents_Create)]

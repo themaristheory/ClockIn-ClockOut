@@ -19,5 +19,10 @@ namespace ClockIn_ClockOut.Models
         /// Used to show success messages.
         /// </summary>
         public string SuccessMessage { get; set; }
+
+        /// <summary>
+        /// Used to show general messages.
+        /// </summary>
+        public string Message { get; set; }
     }
 }

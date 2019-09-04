@@ -19,7 +19,7 @@
         <br />
         <p>@Model.SuccessMessage</p>
     }
-    else 
+    else
     {
         <br />
     }
@@ -40,7 +40,7 @@
                 <td width="">Actions</td>
             </tr>
             @{
-                foreach(var clockEvent in Model.ClockEvents)
+                foreach (var clockEvent in Model.ClockEvents)
                 {
                     var clockin = clockEvent.ClockIn ? "In" : "Out";
                     var datetime = clockEvent.EventDateTime.ToString("dd MMM yyy HH':'mm");
@@ -55,6 +55,13 @@
                 }
             }
         </table>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.Message))
+    {
+        <br />
+        <br />
+        <p>@Model.Message</p>
     }
 
     <hr />
