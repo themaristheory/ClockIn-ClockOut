@@ -135,6 +135,24 @@ namespace ClockIn_ClockOut.Controllers
         }
 
         /// <summary>
+        /// Deletes a clock event.
+        /// </summary>
+        [HttpGet(UriTemplates.ClockEvents_Delete)]
+        public async Task<IActionResult> Delete(int id, string teacherName)
+        {
+            RecoverLoggedInTeacher(teacherName);
+
+            await _clockEventRepository.DeleteClockEvent(id);
+
+            return View("Index", new ClockEventPageViewModel
+            {
+                TeacherName = LoggedInTeacher.UserName,
+                ClockEvents = _clockEventRepository.GetTeacherClockEvents(teacherName),
+                SuccessMessage = "Clock event deleted!"
+            });
+        }
+
+        /// <summary>
         /// Builds and return the view to edit a clock event.
         /// </summary>
         private ViewResult BuildEditClockView(ClockEvent clockEvent, string message)

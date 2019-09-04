@@ -32,7 +32,7 @@ namespace ClockIn_ClockOut
 
             // db contexts
             services.AddDbContext<ClockSystemContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDbContext<ClockSystemContext>(options => options.UseInMemoryDatabase(databaseName: "ClockSystems"));
+            //services.AddDbContext<ClockSystemContext>(options => options.UseInMemoryDatabase(databaseName: "ClockSystem"));
 
             // repositories
             services.AddScoped<IClockEventRepository, ClockEventRepository>();

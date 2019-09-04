@@ -49,7 +49,8 @@
                         <td>@datetime</td>
                         <td>@clockin</td>
                         <td>
-                            <a asp-controller="ClockEvents" asp-action="Edit" asp-route-id="@clockEvent.Id" asp-route-teacherName="@Model.TeacherName">Edit</a>
+                            <a asp-controller="ClockEvents" asp-action="Edit" asp-route-id="@clockEvent.Id" asp-route-teacherName="@Model.TeacherName">Edit</a> |
+                            <a asp-controller="ClockEvents" asp-action="Delete" asp-route-id="@clockEvent.Id" asp-route-teacherName="@Model.TeacherName">Delete</a>
                         </td>
                     </tr>
                 }

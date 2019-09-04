@@ -10,6 +10,7 @@ namespace ClockIn_ClockOut.Data.Repositories
     public interface IClockEventRepository
     {
         Task CreateClockEvent(ClockEvent clockEvent);
+        Task DeleteClockEvent(int id);
         ClockEvent Find(int id);
         List<ClockEvent> GetTeacherClockEvents(string teacherName);
         ClockEvent GetTeacherLastClockEvent(string teacherName);

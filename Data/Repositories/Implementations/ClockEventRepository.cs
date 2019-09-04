@@ -33,7 +33,9 @@ namespace ClockIn_ClockOut.Data.Repositories.Implementations
 
         public ClockEvent GetTeacherLastClockEvent(string teacherName)
         {
-            return _context.ClockEvents.Where(c => c.Teacher.UserName.Equals(teacherName)).LastOrDefault();
+            return _context.ClockEvents
+                .Where(c => c.Teacher.UserName.Equals(teacherName))
+                .LastOrDefault();
         }
 
         public async Task CreateClockEvent(ClockEvent clockEvent)
@@ -46,6 +48,16 @@ namespace ClockIn_ClockOut.Data.Repositories.Implementations
         {
             _context.ClockEvents.Update(clockEvent);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteClockEvent(int id)
+        {
+            var clockEvent = Find(id);
+            if (clockEvent != null)
+            {
+                _context.ClockEvents.Remove(clockEvent);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
