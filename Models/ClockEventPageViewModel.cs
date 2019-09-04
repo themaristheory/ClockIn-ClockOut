@@ -3,6 +3,9 @@ using ClockIn_ClockOut.Data.Entities;
 
 namespace ClockIn_ClockOut.Models
 {
+    /// <summary>
+    /// Model used to show summary of all clock events of a teacher.
+    /// </summary>
     public class ClockEventPageViewModel
     {
         /// <summary>

@@ -4,6 +4,9 @@ using ClockIn_ClockOut.Data.Entities;
 
 namespace ClockIn_ClockOut.Data.Repositories
 {
+    /// <summary>
+    /// This interface knows how to access and manipulate data related to clock events.
+    /// </summary>
     public interface IClockEventRepository
     {
         Task CreateClockEvent(ClockEvent clockEvent);

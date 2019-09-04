@@ -7,8 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClockIn_ClockOut.Controllers
 {
+    /// <summary>
+    /// Clock events controller.
+    /// </summary>
     public class ClockEventsController : Controller
     {
+        // Used to keep the logged in teacher while actual login is not implemented.
         private Teacher LoggedInTeacher;
 
         private readonly IClockEventRepository _clockEventRepository;
@@ -22,6 +26,9 @@ namespace ClockIn_ClockOut.Controllers
             _teacherRepository = teacherRepository;
         }
 
+        /// <summary>
+        /// Returns application's main page.
+        /// </summary>
         [HttpGet(UriTemplates.ClockEvents)]
         public IActionResult Index(string teacherName)
         {
@@ -33,6 +40,9 @@ namespace ClockIn_ClockOut.Controllers
             });
         }
 
+        /// <summary>
+        /// Returns all clock events of a teacher.
+        /// </summary>
         [HttpGet(UriTemplates.ClockEvents_List)]
         public IActionResult List(string teacherName)
         {
@@ -48,6 +58,10 @@ namespace ClockIn_ClockOut.Controllers
 			});
         }
 
+        /// <summary>
+        /// Creates a clock event with the current date, time, and teacher.
+        /// Whether the event is a clock in or a clock out is controlled based on the last event of the same teacher.
+        /// </summary>
         [HttpGet(UriTemplates.ClockEvents_Create)]
         public async Task<IActionResult> Create(string teacherName)
         {
@@ -58,7 +72,7 @@ namespace ClockIn_ClockOut.Controllers
 
             await _clockEventRepository.CreateClockEvent(new ClockEvent
             {
-                ClockIn = !lastClockEvent?.ClockIn ?? true, // the next clock event is always the opposite of the last saved one OR it is the first clock in
+                ClockIn = !lastClockEvent?.ClockIn ?? true, // the next clock event is always the opposite of the last saved event OR it is the first clock in
                 EventDateTime = now,
                 Teacher = LoggedInTeacher,
             });
@@ -70,6 +84,9 @@ namespace ClockIn_ClockOut.Controllers
             });
         }
 
+        /// <summary>
+        /// Returns the edit clock event view.
+        /// </summary>
         [HttpGet(UriTemplates.ClockEvents_Edit)]
         public IActionResult Edit(int id, string teacherName)
         {
@@ -86,6 +103,10 @@ namespace ClockIn_ClockOut.Controllers
             });
         }
 
+        /// <summary>
+        /// Edits a clock event.
+        /// Only the time of the clock event can be edited.
+        /// </summary>
         [HttpPost(UriTemplates.ClockEvents_Edit)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ClockEvent clockEvent)
@@ -113,6 +134,9 @@ namespace ClockIn_ClockOut.Controllers
             return BuildEditClockView(clockEvent, "There was a problem!");
         }
 
+        /// <summary>
+        /// Builds and return the view to edit a clock event.
+        /// </summary>
         private ViewResult BuildEditClockView(ClockEvent clockEvent, string message)
         {
             return View("EditClockEvent", new ClockEventViewModel
@@ -125,6 +149,9 @@ namespace ClockIn_ClockOut.Controllers
             });
         }
 
+        /// <summary>
+        /// Since login system is not implemented yet, recover teacher from database or create a teacher, if no teacher is found with the required username.
+        /// </summary>
         private void RecoverLoggedInTeacher(string teacherName)
         {
             LoggedInTeacher = _teacherRepository.FindByUsername(teacherName);

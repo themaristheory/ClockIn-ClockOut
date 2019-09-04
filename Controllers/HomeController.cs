@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
 using ClockIn_ClockOut.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ClockIn_ClockOut.Controllers
 {
+    /// <summary>
+    /// Login page controller.
+    /// </summary>
     public class HomeController : Controller
     {
         [HttpGet]

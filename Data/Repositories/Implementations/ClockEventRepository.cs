@@ -5,6 +5,9 @@ using ClockIn_ClockOut.Data.Entities;
 
 namespace ClockIn_ClockOut.Data.Repositories.Implementations
 {
+    /// <summary>
+    /// This class implements the access and manipulation of the data related to the clock events.
+    /// </summary>
     public class ClockEventRepository : IClockEventRepository
     {
         private ClockSystemContext _context;

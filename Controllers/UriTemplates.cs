@@ -1,5 +1,8 @@
 ﻿namespace ClockIn_ClockOut.Controllers
 {
+    /// <summary>
+    /// Contants used to keep the routes of the application in the same place.
+    /// </summary>
     public static class UriTemplates
     {
         public const string ClockEvents = "clock-events";
