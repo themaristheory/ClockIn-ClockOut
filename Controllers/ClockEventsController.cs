@@ -35,7 +35,10 @@ namespace ClockIn_ClockOut.Controllers
         {
             RecoverLoggedInTeacher(teacherName);
 
-            var clockEvents = _context.ClockEvents.Where(c => c.Teacher.UserName.Equals(LoggedInTeacher.UserName)).ToList();
+            var clockEvents = _context.ClockEvents
+                .Where(c => c.Teacher.UserName.Equals(LoggedInTeacher.UserName))
+                .OrderByDescending(c => c.EventDateTime)
+                .ToList();
 
             return View("Index", new ClockEventPageViewModel
             {
@@ -64,6 +67,71 @@ namespace ClockIn_ClockOut.Controllers
             {
                 TeacherName = LoggedInTeacher.UserName,
                 SuccessMessage = "Clock event registered!"
+            });
+        }
+
+        [HttpGet(UriTemplates.ClockEvents_Edit)]
+        public IActionResult Edit(int id, string teacherName)
+        {
+            RecoverLoggedInTeacher(teacherName);
+
+            var clockEvent = _context.ClockEvents.FirstOrDefault(c => c.Id == id);
+
+            return View("EditClockEvent", new ClockEventViewModel
+            {
+                Id = clockEvent.Id,
+                Teacher = LoggedInTeacher,
+                EventDateTime = clockEvent.EventDateTime,
+                ClockIn = clockEvent.ClockIn,
+            });
+        }
+
+        [HttpPost(UriTemplates.ClockEvents_Edit)]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, ClockEvent clockEvent)
+        {
+            if (id != clockEvent.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    clockEvent.Teacher = _context.Teachers.FirstOrDefault(t => t.UserName.Equals(clockEvent.Teacher.UserName));
+                    _context.ClockEvents.Update(clockEvent);
+                    await _context.SaveChangesAsync();
+
+                    return View("EditClockEvent", new ClockEventViewModel
+                    {
+                        Id = clockEvent.Id,
+                        Teacher = clockEvent.Teacher,
+                        EventDateTime = clockEvent.EventDateTime,
+                        ClockIn = clockEvent.ClockIn,
+                        Message = "Event updated successfully!",
+                    });
+                }
+                catch (Exception)
+                {
+                    return View("EditClockEvent", new ClockEventViewModel
+                    {
+                        Id = clockEvent.Id,
+                        Teacher = clockEvent.Teacher,
+                        EventDateTime = clockEvent.EventDateTime,
+                        ClockIn = clockEvent.ClockIn,
+                        Message = "There was a problem!",
+                    });
+                }
+            }
+
+            return View("EditClockEvent", new ClockEventViewModel
+            {
+                Id = clockEvent.Id,
+                Teacher = clockEvent.Teacher,
+                EventDateTime = clockEvent.EventDateTime,
+                ClockIn = clockEvent.ClockIn,
+                Message = "There was a problem!",
             });
         }
 

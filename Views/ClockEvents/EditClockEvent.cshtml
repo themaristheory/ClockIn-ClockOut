@@ -1,0 +1,39 @@
+﻿@model ClockIn_ClockOut.Models.ClockEventViewModel
+
+@{
+    ViewData["Title"] = "Edit clock event";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ClockIn" />
+                <input type="hidden" asp-for="Teacher.UserName" />
+                <div class="form-group">
+                    <label class="control-label">Date and time</label>
+                    <input asp-for="EventDateTime" class="form-control" />
+                    <span asp-validation-for="EventDateTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Message))
+    {
+        <p>@Model.Message</p>
+    }
+
+    <div class="row">
+        <a class="btn btn-default" asp-controller="ClockEvents" asp-action="Index" asp-route-teacherName="@Model.Teacher.UserName">Go back</a>
+    </div>
+</div>

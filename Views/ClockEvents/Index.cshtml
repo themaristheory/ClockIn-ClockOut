@@ -14,6 +14,7 @@
     @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
     {
         <br />
+        <br />
         <p>@Model.SuccessMessage</p>
     }
     else 
@@ -30,16 +31,27 @@
         <br />
         <br />
 
-        <ul style="list-style: none;">
-        @{
-            foreach(var clockEvent in Model.ClockEvents)
-            {
-                var clockin = clockEvent.ClockIn ? "Clock In" : "Clock Out";
-                var datetime = clockEvent.EventDateTime.ToString("dd MMM yyy HH':'mm");
+        <table style="width: 100%;">
+            <tr>
+                <td width="40%">Date</td>
+                <td width="30%">Clock in/out</td>
+                <td width="">Actions</td>
+            </tr>
+            @{
+                foreach(var clockEvent in Model.ClockEvents)
+                {
+                    var clockin = clockEvent.ClockIn ? "In" : "Out";
+                    var datetime = clockEvent.EventDateTime.ToString("dd MMM yyy HH':'mm");
 
-                <li>@datetime - @clockin</li>
+                    <tr>
+                        <td>@datetime</td>
+                        <td>@clockin</td>
+                        <td>
+                            <a asp-controller="ClockEvents" asp-action="Edit" asp-route-id="@clockEvent.Id" asp-route-teacherName="@Model.TeacherName">Edit</a>
+                        </td>
+                    </tr>
+                }
             }
-        }
-        </ul>
+        </table>
     }
 </div>
