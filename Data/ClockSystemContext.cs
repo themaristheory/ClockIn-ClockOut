@@ -10,6 +10,11 @@ namespace ClockIn_ClockOut.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<ClockEvent> ClockEvents { get; set; }
     }
