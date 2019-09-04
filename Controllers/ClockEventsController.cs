@@ -12,11 +12,14 @@ namespace ClockIn_ClockOut.Controllers
     {
         private Teacher LoggedInTeacher;
         private ClockSystemContext _context;
+        private readonly IClockEventRepository _clockEventRepository;
 
         public ClockEventsController(
-            ClockSystemContext context)
+            ClockSystemContext context,
+            IClockEventRepository clockEventRepository)
         {
             _context = context;
+            _clockEventRepository = clockEventRepository;
         }
 
         [HttpGet(UriTemplates.ClockEvents)]
@@ -35,10 +38,7 @@ namespace ClockIn_ClockOut.Controllers
         {
             RecoverLoggedInTeacher(teacherName);
 
-            var clockEvents = _context.ClockEvents
-                .Where(c => c.Teacher.UserName.Equals(LoggedInTeacher.UserName))
-                .OrderByDescending(c => c.EventDateTime)
-                .ToList();
+            var clockEvents = _clockEventRepository.GetTeacherClockEvents(teacherName);
 
             return View("Index", new ClockEventPageViewModel
             {
@@ -53,15 +53,14 @@ namespace ClockIn_ClockOut.Controllers
             RecoverLoggedInTeacher(teacherName);
 
             var now = DateTime.Now;
-            var lastClockEvent = _context.ClockEvents.Where(c => c.Teacher.UserName.Equals(LoggedInTeacher.UserName)).LastOrDefault();
+            var lastClockEvent = _clockEventRepository.GetTeacherLastClockEvent(teacherName);
 
-            await _context.ClockEvents.AddAsync(new ClockEvent
+            await _clockEventRepository.CreateClockEvent(new ClockEvent
             {
                 ClockIn = !lastClockEvent?.ClockIn ?? true, // the next clock event is always the opposite of the last saved one OR it is the first clock in
                 EventDateTime = now,
                 Teacher = LoggedInTeacher,
             });
-            await _context.SaveChangesAsync();
 
             return View("Index", new ClockEventPageViewModel
             {
@@ -75,7 +74,7 @@ namespace ClockIn_ClockOut.Controllers
         {
             RecoverLoggedInTeacher(teacherName);
 
-            var clockEvent = _context.ClockEvents.FirstOrDefault(c => c.Id == id);
+            var clockEvent = _clockEventRepository.Find(id);
 
             return View("EditClockEvent", new ClockEventViewModel
             {
@@ -101,9 +100,7 @@ namespace ClockIn_ClockOut.Controllers
             {
                 try
                 {
-                    _context.ClockEvents.Update(clockEvent);
-                    await _context.SaveChangesAsync();
-
+                    await _clockEventRepository.UpdateClockEvent(clockEvent);
                     return BuildEditClockView(clockEvent, "Event updated successfully!");
                 }
                 catch (Exception)
