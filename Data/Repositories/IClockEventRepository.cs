@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using ClockIn_ClockOut.Data.Entities;
 
-namespace ClockIn_ClockOut.Data
+namespace ClockIn_ClockOut.Data.Repositories
 {
     public interface IClockEventRepository
     {

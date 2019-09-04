@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClockIn_ClockOut.Data.Entities;
 
-namespace ClockIn_ClockOut.Data
+namespace ClockIn_ClockOut.Data.Repositories.Implementations
 {
     public class ClockEventRepository : IClockEventRepository
     {

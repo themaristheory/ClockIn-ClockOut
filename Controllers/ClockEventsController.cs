@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using ClockIn_ClockOut.Data;
 using ClockIn_ClockOut.Data.Entities;
+using ClockIn_ClockOut.Data.Repositories;
 using ClockIn_ClockOut.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,15 +10,16 @@ namespace ClockIn_ClockOut.Controllers
     public class ClockEventsController : Controller
     {
         private Teacher LoggedInTeacher;
-        private ClockSystemContext _context;
+
         private readonly IClockEventRepository _clockEventRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
         public ClockEventsController(
-            ClockSystemContext context,
-            IClockEventRepository clockEventRepository)
+            IClockEventRepository clockEventRepository,
+            ITeacherRepository teacherRepository)
         {
-            _context = context;
             _clockEventRepository = clockEventRepository;
+            _teacherRepository = teacherRepository;
         }
 
         [HttpGet(UriTemplates.ClockEvents)]
@@ -94,7 +94,7 @@ namespace ClockIn_ClockOut.Controllers
                 return NotFound();
             }
 
-            clockEvent.Teacher = _context.Teachers.FirstOrDefault(t => t.UserName.Equals(clockEvent.Teacher.UserName));
+            clockEvent.Teacher = _teacherRepository.FindByUsername(clockEvent.Teacher.UserName);
 
             if (ModelState.IsValid)
             {
@@ -126,20 +126,19 @@ namespace ClockIn_ClockOut.Controllers
 
         private void RecoverLoggedInTeacher(string teacherName)
         {
-            LoggedInTeacher = _context.Teachers.FirstOrDefault(t => t.UserName.Equals(teacherName));
+            LoggedInTeacher = _teacherRepository.FindByUsername(teacherName);
 
             if (LoggedInTeacher == null)
             {
                 var userName = teacherName.Replace(" ", "");
 
-                _context.Teachers.AddAsync(new Teacher
+                _teacherRepository.CreateTeacher(new Teacher
                 {
                     UserName = userName,
                     FullName = teacherName
                 });
-                _context.SaveChanges();
 
-                LoggedInTeacher = _context.Teachers.FirstOrDefault(t => t.UserName.Equals(userName));
+                LoggedInTeacher = _teacherRepository.FindByUsername(userName);
             }
         }
     }

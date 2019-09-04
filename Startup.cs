@@ -1,10 +1,12 @@
 ﻿using ClockIn_ClockOut.Data;
+using ClockIn_ClockOut.Data.Repositories;
+using ClockIn_ClockOut.Data.Repositories.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ClockIn_ClockOut
@@ -34,6 +36,7 @@ namespace ClockIn_ClockOut
 
             // repositories
             services.AddScoped<IClockEventRepository, ClockEventRepository>();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
